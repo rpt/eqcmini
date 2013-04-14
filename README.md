@@ -16,7 +16,7 @@ using the `code:add_patha/1` function in the Erlang distribution.~~
 Add `eqc` as a dependency to your (test) rebar configuration:
 
 ``` erlang
-{deps, [{eqc, ".*", {git, "git@github.com:rpt/eqcmini.git"}}]}.
+{deps, [{eqc, ".*", {git, "git://github.com/rpt/eqcmini.git"}}]}.
 ```
 
 [Examples](examples) are provided to illustrate how it works.
