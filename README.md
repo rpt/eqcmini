@@ -19,6 +19,7 @@ Add `eqc` as a dependency to your (test) rebar configuration:
 {deps, [{eqc, ".*", {git, "git://github.com/rpt/eqcmini.git"}}]}.
 ```
 
+Online [documentation][docs] is available.
 [Examples](examples) are provided to illustrate how it works.
 
 You can subscribe to `quickcheck-questions@quviq.com` by sending
@@ -36,3 +37,4 @@ when it succeeds.
 [eqcmini]: http://quviq.com/downloads/eqcmini.zip
 [quviq]: http://quviq.com/index.html
 [flyer]: http://quviq.com/documents/QuviqFlyer.pdf
+[docs]: https://htmlpreview.github.io/?https://github.com/rpt/eqcmini/blob/master/doc/index.html
