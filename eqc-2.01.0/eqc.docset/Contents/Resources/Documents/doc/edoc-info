@@ -1,0 +1,4 @@
+%% encoding: UTF-8
+{application,eqc}.
+{packages,[]}.
+{modules,[eqc,eqc_ag,eqc_gen,eqc_symbolic]}.
