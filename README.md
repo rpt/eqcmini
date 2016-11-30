@@ -1,6 +1,6 @@
 # QuickCheck Mini
 
-QuickCheck Mini is a stripped down version of Quviq QuickCheck.
+QuickCheck Mini is a stripped down version of [Quviq QuickCheck][erlang-quickcheck].
 
 This version supports generators and shrinking, but mainly for testing
 side-effect free code. For code with side-effects, concurrent code or
@@ -37,3 +37,10 @@ This should be run in the same directory that this README file is in.
 NOTE: you must have write access to your Erlang installation, which
 under Windows normally means you must run Erlang as the administrator
 for this to succeed, and under Linux you may need sudo.
+
+## Quviq QuickCheck versus QuickCheck Mini
+
+![QuickCheck Versions][quickcheck-versions]
+
+  [erlang-quickcheck]: http://www.quviq.com/products/erlang-quickcheck/
+  [quickcheck-versions]: https://cloud.githubusercontent.com/assets/511893/20773397/926c69ba-b71f-11e6-930b-6a8ce74a0540.png
