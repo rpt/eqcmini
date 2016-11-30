@@ -1,0 +1,209 @@
+<?xml version="1.0"?><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>Module eqc_ag</title>
+<link rel="stylesheet" type="text/css" href="stylesheet.css" title="EDoc"/>
+</head>
+<body bgcolor="white">
+<div class="navbar"><a name="#navbar_top"/><table width="100%" border="0" cellspacing="0" cellpadding="2" summary="navigation bar"><tr><td><a href="overview-summary.html" target="overviewFrame">Overview</a></td><td><a href="http://www.erlang.org/"><img src="erlang.png" align="right" border="0" alt="erlang logo"/></a></td></tr></table></div>
+<hr/>
+
+<h1>Module eqc_ag</h1>
+<ul class="index"><li><a href="#description">Description</a></li><li><a href="#index">Function Index</a></li><li><a href="#functions">Function Details</a></li></ul> 
+This module provides an attribute grammar system for Erlang.
+<p>Copyright © Quviq AB, 2014-2015</p>
+
+<p><b>Version:</b> 2.01.0</p>
+
+<h2><a name="description">Description</a></h2><p> 
+This module provides an attribute grammar system for Erlang. 
+Attribute grammars provide a modular way of defining functions over 
+tree-shaped data, allowing each aspect of the computation to be defined as a 
+separate attribute. Attributes are defined using a special purpose syntax. 
+For example, calculating the height of a tree:</p>
+
+ <pre>
+ -type tree() :: {leaf, integer()} | {node, tree(), tree()}.
+
+ height({leaf, _})  :- 0;
+ height(X)          :- 1 + lists:max(height(X, list)).
+
+ &gt; eqc_ag:compute([examples:height()], {node,{node,{leaf,3},{node,{leaf,2},{leaf,1}}},
+                                                            {node,{leaf,4},{leaf,6}}}).
+ &gt; 3
+ </pre>
+
+ A detailed description of the attribute grammar system can be found
+ <a href="http://dl.acm.org/citation.cfm?id=2804296">here</a>.
+<h2><a name="index">Function Index</a></h2>
+<table width="100%" border="1" cellspacing="0" cellpadding="2" summary="function index"><tr><td valign="top"><a href="#compute-2">compute/2</a></td><td>Equivalent to <a href="#compute-4"><tt>compute(Attrs, tuple_traversal(), [], T)</tt></a>.
+</td></tr>
+<tr><td valign="top"><a href="#compute-3">compute/3</a></td><td>Equivalent to <tt>compute(Attrs, Pat, [], T)</tt> or
+ <tt>compute(Attrs, tuple_traversal(), In, T)</tt> depending on the type of the second
+ argument, which may either be a pattern function or a list of initial values.</td></tr>
+<tr><td valign="top"><a href="#compute-4">compute/4</a></td><td>This function is a wrapper around the <a href="#traverse-4"><code>traverse/4</code></a> function.</td></tr>
+<tr><td valign="top"><a href="#compute_gen-3">compute_gen/3</a></td><td>Equivalent to <a href="#compute_m-4"><tt>compute_m(mondad_gen(), Attrs, Pattern, In)</tt></a>.
+</td></tr>
+<tr><td valign="top"><a href="#compute_m-4">compute_m/4</a></td><td>A wrapper around the unfold/4 function.</td></tr>
+<tr><td valign="top"><a href="#compute_pure-3">compute_pure/3</a></td><td>Equivalent to <a href="#compute_m-4"><tt>compute_m(mondad_id(), Attrs, Pattern, In)</tt></a>.
+</td></tr>
+<tr><td valign="top"><a href="#global-1">global/1</a></td><td>This function declares a constant inherited attribute.</td></tr>
+<tr><td valign="top"><a href="#global-2">global/2</a></td><td>A constant inherited attribute with a given value.</td></tr>
+<tr><td valign="top"><a href="#monad_gen-0">monad_gen/0</a></td><td>The <a href="eqc_gen.html"><code>eqc_gen</code></a> generator monad.</td></tr>
+<tr><td valign="top"><a href="#monad_id-0">monad_id/0</a></td><td>The identity monad.</td></tr>
+<tr><td valign="top"><a href="#rename-2">rename/2</a></td><td>Rename an existing attribute to another given attribute.</td></tr>
+<tr><td valign="top"><a href="#term-0">term/0</a></td><td>The identity attribute which simply returns the traversed term.</td></tr>
+<tr><td valign="top"><a href="#term_traversal-0">term_traversal/0</a></td><td>A pattern function that adds a placeholder for every subterm.</td></tr>
+<tr><td valign="top"><a href="#traverse-2">traverse/2</a></td><td>Equivalent to <a href="#traverse-4"><tt>traverse(Attrs, tuple_traversal(), [], T)</tt></a>.
+</td></tr>
+<tr><td valign="top"><a href="#traverse-3">traverse/3</a></td><td>Equivalent to <tt>traverse(Attrs, Pat, [], T)</tt> or
+ <tt>traverse(Attrs, tuple_traversal(), In, T)</tt> depending on the type of the second
+ argument, which may either be a pattern function or a list of initial values.</td></tr>
+<tr><td valign="top"><a href="#traverse-4">traverse/4</a></td><td>This function takes a list of attributes, a list of initial values of
+ inherited attributes, a pattern function, and a term to traverse.</td></tr>
+<tr><td valign="top"><a href="#traverse_m-5">traverse_m/5</a></td><td>A monadic variant of <a href="#traverse-4"><code>traverse/4</code></a>.</td></tr>
+<tr><td valign="top"><a href="#tuple_traversal-0">tuple_traversal/0</a></td><td>This pattern function looks at the input tree and produces the
+ corresponding term pattern, inserting placeholders for any non-simple subterms.</td></tr>
+<tr><td valign="top"><a href="#unfold-4">unfold/4</a></td><td>The monadic unfold function.</td></tr>
+<tr><td valign="top"><a href="#unfold_gen-3">unfold_gen/3</a></td><td>Equivalent to <a href="#unfold-4"><tt>unfold(monad_gen(), AttrFuns, Pattern, InAttrs)</tt></a>.
+</td></tr>
+<tr><td valign="top"><a href="#unfold_pure-3">unfold_pure/3</a></td><td>Equivalent to <a href="#unfold-4"><tt>unfold(monad_id(), AttrFuns, Pattern, InAttrs)</tt></a>.
+</td></tr>
+</table>
+
+<h2><a name="functions">Function Details</a></h2>
+
+<h3 class="function"><a name="compute-2">compute/2</a></h3>
+<div class="spec">
+<p><tt>compute(Attrs, T) -&gt; any()</tt></p>
+</div><p>Equivalent to <a href="#compute-4"><tt>compute(Attrs, tuple_traversal(), [], T)</tt></a>.</p>
+
+
+<h3 class="function"><a name="compute-3">compute/3</a></h3>
+<div class="spec">
+<p><tt>compute(Attrs, In, T) -&gt; any()</tt></p>
+</div><p>Equivalent to <tt>compute(Attrs, Pat, [], T)</tt> or
+ <tt>compute(Attrs, tuple_traversal(), In, T)</tt> depending on the type of the second
+ argument, which may either be a pattern function or a list of initial values.</p>
+
+<h3 class="function"><a name="compute-4">compute/4</a></h3>
+<div class="spec">
+<p><tt>compute(Attrs, Pat, In, T) -&gt; any()</tt></p>
+</div><p>This function is a wrapper around the <a href="#traverse-4"><code>traverse/4</code></a> function. It
+ returns only the result of the first synthesized attribute, instead of all
+ synthesized attributes.</p>
+
+<h3 class="function"><a name="compute_gen-3">compute_gen/3</a></h3>
+<div class="spec">
+<p><tt>compute_gen(Attrs, Pattern, In) -&gt; any()</tt></p>
+</div><p>Equivalent to <a href="#compute_m-4"><tt>compute_m(mondad_gen(), Attrs, Pattern, In)</tt></a>.</p>
+
+
+<h3 class="function"><a name="compute_m-4">compute_m/4</a></h3>
+<div class="spec">
+<p><tt>compute_m(Monad, Attrs, Pattern, In) -&gt; any()</tt></p>
+</div><p>A wrapper around the unfold/4 function. It returns only the result of
+ the first synthesized attribute, instead of all synthesized attributes.</p>
+
+<h3 class="function"><a name="compute_pure-3">compute_pure/3</a></h3>
+<div class="spec">
+<p><tt>compute_pure(Attrs, Pattern, In) -&gt; any()</tt></p>
+</div><p>Equivalent to <a href="#compute_m-4"><tt>compute_m(mondad_id(), Attrs, Pattern, In)</tt></a>.</p>
+
+
+<h3 class="function"><a name="global-1">global/1</a></h3>
+<div class="spec">
+<p><tt>global(Name) -&gt; any()</tt></p>
+</div><p>This function declares a constant inherited attribute. The value of the
+ attribute can be given as an argument to the <a href="#traverse-4"><code>traverse/4</code></a> function.
+ Alternatively, the <a href="#global-2"><code>global/2</code></a> function can be used to initialise the
+ attribute immediately.</p>
+
+<h3 class="function"><a name="global-2">global/2</a></h3>
+<div class="spec">
+<p><tt>global(Name, Val) -&gt; any()</tt></p>
+</div><p>A constant inherited attribute with a given value.</p>
+
+<h3 class="function"><a name="monad_gen-0">monad_gen/0</a></h3>
+<div class="spec">
+<p><tt>monad_gen() -&gt; any()</tt></p>
+</div><p>The <a href="eqc_gen.html"><code>eqc_gen</code></a> generator monad.</p>
+
+<h3 class="function"><a name="monad_id-0">monad_id/0</a></h3>
+<div class="spec">
+<p><tt>monad_id() -&gt; any()</tt></p>
+</div><p>The identity monad.</p>
+
+<h3 class="function"><a name="rename-2">rename/2</a></h3>
+<div class="spec">
+<p><tt>rename(Name, A) -&gt; any()</tt></p>
+</div><p>Rename an existing attribute to another given attribute.</p>
+
+<h3 class="function"><a name="term-0">term/0</a></h3>
+<div class="spec">
+<p><tt>term() -&gt; any()</tt></p>
+</div><p>The identity attribute which simply returns the traversed term.</p>
+
+<h3 class="function"><a name="term_traversal-0">term_traversal/0</a></h3>
+<div class="spec">
+<p><tt>term_traversal() -&gt; any()</tt></p>
+</div><p>A pattern function that adds a placeholder for every subterm.</p>
+
+<h3 class="function"><a name="traverse-2">traverse/2</a></h3>
+<div class="spec">
+<p><tt>traverse(Attrs, T) -&gt; any()</tt></p>
+</div><p>Equivalent to <a href="#traverse-4"><tt>traverse(Attrs, tuple_traversal(), [], T)</tt></a>.</p>
+
+
+<h3 class="function"><a name="traverse-3">traverse/3</a></h3>
+<div class="spec">
+<p><tt>traverse(Attrs, Pat, T) -&gt; any()</tt></p>
+</div><p>Equivalent to <tt>traverse(Attrs, Pat, [], T)</tt> or
+ <tt>traverse(Attrs, tuple_traversal(), In, T)</tt> depending on the type of the second
+ argument, which may either be a pattern function or a list of initial values.</p>
+
+<h3 class="function"><a name="traverse-4">traverse/4</a></h3>
+<div class="spec">
+<p><tt>traverse(Attrs, Pattern, In, T) -&gt; any()</tt></p>
+</div><p>This function takes a list of attributes, a list of initial values of
+ inherited attributes, a pattern function, and a term to traverse. The return
+ value is the values of the synthesized attributes (in a tuple, if more than one).</p>
+
+<h3 class="function"><a name="traverse_m-5">traverse_m/5</a></h3>
+<div class="spec">
+<p><tt>traverse_m(Monad, Attrs, Pattern, In, T) -&gt; any()</tt></p>
+</div><p>A monadic variant of <a href="#traverse-4"><code>traverse/4</code></a>.</p>
+
+<h3 class="function"><a name="tuple_traversal-0">tuple_traversal/0</a></h3>
+<div class="spec">
+<p><tt>tuple_traversal() -&gt; any()</tt></p>
+</div><p>This pattern function looks at the input tree and produces the
+ corresponding term pattern, inserting placeholders for any non-simple subterms.
+ A term is considered simple if it is either a literal or a list of simple
+ terms. This pattern function is useful in the majority of cases, but for the
+ cases when it is not there is a <a href="#traverse-4"><code>traverse/4</code></a> function that takes the
+ pattern function as an argument.</p>
+
+<h3 class="function"><a name="unfold-4">unfold/4</a></h3>
+<div class="spec">
+<p><tt>unfold(Monad, Attrs, Pattern, In) -&gt; any()</tt></p>
+</div><p>The monadic unfold function. It takes a monad, a list of attributes,
+ a pattern function, and a list of initial values as argument.</p>
+
+<h3 class="function"><a name="unfold_gen-3">unfold_gen/3</a></h3>
+<div class="spec">
+<p><tt>unfold_gen(AttrFuns, Pattern, InAttrs) -&gt; any()</tt></p>
+</div><p>Equivalent to <a href="#unfold-4"><tt>unfold(monad_gen(), AttrFuns, Pattern, InAttrs)</tt></a>.</p>
+
+
+<h3 class="function"><a name="unfold_pure-3">unfold_pure/3</a></h3>
+<div class="spec">
+<p><tt>unfold_pure(AttrFuns, Pattern, InAttrs) -&gt; any()</tt></p>
+</div><p>Equivalent to <a href="#unfold-4"><tt>unfold(monad_id(), AttrFuns, Pattern, InAttrs)</tt></a>.</p>
+
+<hr/>
+
+<div class="navbar"><a name="#navbar_bottom"/><table width="100%" border="0" cellspacing="0" cellpadding="2" summary="navigation bar"><tr><td><a href="overview-summary.html" target="overviewFrame">Overview</a></td><td><a href="http://www.erlang.org/"><img src="erlang.png" align="right" border="0" alt="erlang logo"/></a></td></tr></table></div>
+<p><i>Generated by EDoc, Sep 2 2015, 11:03:37.</i></p>
+</body>
+</html>

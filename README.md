@@ -1,40 +1,49 @@
-# QuickCheck Mini
+QuickCheck Mini is a stripped down version of Quviq QuickCheck.
 
-**This is a fully functional stripped down version of [Quviq][quviq]
-[QuickCheck][flyer].**
+This version supports generators and shrinking, but mainly for testing
+side-effect free code. For code with side-effects, concurrent code or
+distributed applications, Quviq QuickCheck offers state machine libraries,
+component libraries and PULSE (a scheduler). A full QuickCheck licence is
+available from Quviq.
 
-**QuickCheck Mini** is free of charge ~~and the latest version [can be
-downloaded from Quviq's homepage][eqcmini].~~ The Mini version of
-QuickCheck is intended to support individuals and open source projects
-in obtaining a better code quality without having to invest in the
-full version of QuickCheck.
+The full QuickCheck is also available via quickcheck-ci.com, a web service for
+QuickCheck continuous integration. It is free for open source projects.
 
-~~QuickCheck Mini is installed by copying the complete directory
-`eqc-....` into the Erlang library directory or by pointing to it by
-using the `code:add_patha/1` function in the Erlang distribution.~~
 
-Add `eqc` as a dependency to your (test) rebar configuration:
+To install QuickCheck Mini
+==========================
 
-``` erlang
-{deps, [{eqc, ".*", {git, "git://github.com/rpt/eqcmini.git"}}]}.
+The Easy Way:
+-------------
+
+QuickCheck is designed to be installed in the `lib` directory of your
+Erlang installation. The easiest way to do so is to run the
+installation program 
+
+```erlang
+eqc_install:install().
 ```
 
-Online [documentation][docs] is available.
-[Examples](examples) are provided to illustrate how it works.
+This should be run in the same directory that this README file is in.
 
-You can subscribe to `quickcheck-questions@quviq.com` by sending
-"Subscribe" in the subject line. This is a community email list around
-the use of QuickCheck.
+NOTE: you must have write access to your Erlang installation, which
+under Windows normally means you must run Erlang as the administrator
+for this to succeed, and under Linux you may need sudo.
 
-Please note that although QuickCheck Mini does not require a licence
-check with the Quviq licence server, it does check for a new version
-each time it is started, and will notify you if one is available. No
-other information is included in the request, and QuickCheck Mini will
-start regardless of whether or not the version check succeeds, but
-(because there is a short time-out) will start slightly more quickly
-when it succeeds.
+The Slightly Harder Way:
+------------------------
 
-[eqcmini]: http://quviq.com/downloads/eqcmini.zip
-[quviq]: http://quviq.com/index.html
-[flyer]: http://quviq.com/documents/QuviqFlyer.pdf
-[docs]: https://htmlpreview.github.io/?https://github.com/rpt/eqcmini/blob/master/doc/index.html
+To install QuickCheck somewhere else, choose a directory Dir and call
+
+```erlang
+eqc_install:install(Dir).
+```
+
+as above.
+
+This moves eqc-1.xx.y, pulse-1.xx.y etc into Dir. To use them, you
+must make sure that Dir/eqc-1.xx.y/ebin, Dir/pulse-1.xx.y/ebin etc are
+in your Erlang code path whenever you start QuickCheck. For example,
+you can put a call to code:add_paths in your .erlang file, so these
+paths are added every time the Erlang VM starts.
+
